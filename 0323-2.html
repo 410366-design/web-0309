@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <title>0323-2-CSS動畫</title>
+        <style>
+            div{
+                margin-bottom: 10px;
+                width: 400px;
+                height: 100px;
+                
+            }
+            @keyframes kd1 {
+                0%{ background: linear-gradient(0deg, red,yellow); }
+                8%{ background: linear-gradient(30deg, red,yellow); }
+                17%{ background: linear-gradient(60deg, red,yellow); }
+                25%{ background: linear-gradient(90deg, red,yellow); }
+                33%{ background: linear-gradient(120deg, red,yellow); }
+                42%{ background: linear-gradient(150deg, red,yellow); }
+                50%{ background: linear-gradient(180deg, red,yellow); }
+                58%{ background: linear-gradient(210deg, red,yellow); }
+                67%{ background: linear-gradient(240deg, red,yellow); }
+                75%{ background: linear-gradient(270deg, red,yellow); }
+                83%{ background: linear-gradient(300deg, red,yellow); }
+                92%{ background: linear-gradient(330deg, red,yellow); }
+                100%{ background: linear-gradient(360deg, red,yellow); }
+                
+            }
+            #d1{
+                background: linear-gradient(90deg, red,yellow);
+                animation: kd1 10ms infinite linear;           
+            }
+            @keyframes kd2 { 
+                0%{ background: linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet);}
+                15%{ background: linear-gradient(90deg, orange,yellow,green,blue,indigo,violet,red);}
+                29%{ background: linear-gradient(90deg, yellow,green,blue,indigo,violet,red,orange);}
+                43%{ background: linear-gradient(90deg, green,blue,indigo,violet,red,orange,yellow,);}
+                57%{ background: linear-gradient(90deg, blue,indigo,violet,red,orange,yellow,green,);}
+                71%{ background: linear-gradient(90deg, indigo,violet,red,orange,yellow,green,blue,);}
+                86%{ background: linear-gradient(90deg, violet,red,orange,yellow,green,blue,indigo,);}
+                100%{ background: linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet);}
+                
+            }
+            #d2{                
+                height:50px;
+                background: linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet);
+                animation: kd2 1ms infinite linear;
+            }
+            #d3{
+                background: linear-gradient(90deg, red 30%,white 30%,white 70%,blue 70%);
+            }
+            @keyframes kd4 {
+                0%{ background: repeating-linear-gradient(30deg,red 30%,white 35%,red 40%);}
+                25%{ background: repeating-linear-gradient(30deg,red 30%,white 35%,red 40%);}
+                75%{ background: repeating-linear-gradient(30deg,red 30%,white 35%,red 40%);}
+                100%{ background: repeating-linear-gradient(30deg,red 30%,white 35%,red 40%);}
+            }
+            #d4{
+                height: 50px;
+                background: repeating-linear-gradient(30deg,red 30%,white 35%,red 40%);
+                animation: kd4 1ms infinite linear;
+            }
+            #r1{
+                width:400px;
+                height:200px;
+                background: radial-gradient(circle,yellow,white,black 70%);
+            }
+            @keyframes kr2 {
+                0%{background: repeating-radial-gradient(circle,gray 20%,white 30%,gray 40%);}
+                50%{background: repeating-radial-gradient(circle,gray 20%,white 30%,gray 40%);}
+                100%{background: repeating-radial-gradient(circle,gray 20%,white 30%,gray 40%);}
+                
+            }
+            #r2{
+                height: 200px;
+                background: repeating-radial-gradient(circle,gray 20%,white 30%,gray 40%);
+                animation: kr2 10ms infinite linear;
+            }
+            #c1{
+                height: 200px;
+                background: conic-gradient(red,yellow,green,cyan,blue,magenta,red);
+            }
+            #c2{
+                height: 200px;
+                background: repeating-conic-gradient(red 10%,white 15%,red 20%);
+            }
+        </style>
+    </head>
+    <body>
+        <!--漸層-->
+        <div id="d1"></div>
+        <div id="d2"></div>
+        <div id="d3"></div>
+        <div id="d4"></div>
+
+        <div id="r1"></div>
+        <div id="r2"></div>
+
+        <div id="c1"></div>
+        <div id="c2"></div>
+    </body>
+</html>
