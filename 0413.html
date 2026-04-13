@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>0413-漸變 字型 陰影</title>
+        <style>
+            div{
+                margin-bottom: 20px;
+            }
+            #d1{
+                width: 200px;
+                height: 150px;
+                background: red;
+                border: 3px solid pink;
+                transition: width 0.5s,height 0.5s;
+            }
+            #d1:hover{
+                background: pink;
+                border: 3px solid darkred;                
+            }
+            #d2{
+                width: 200px;
+                height: 150px;
+                background: red;
+                box-shadow: green 0px 0px 5px 5px;
+            }
+            #d3{
+                font-size: 30pt;
+                color: white;
+                text-shadow: black 3px 0px 5px;
+            }
+            #d4{
+                font-size: 40pt;
+                font-family:'標楷體','Times New Roman', Times, serif;
+            }
+            #d5{
+                font-size: 40pt;
+                font-family: '微軟正黑體' ,Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <boddy>
+        <div id="d1"></div>
+        <div id="d2"></div>
+        <div id="d3">文字</div>
+        <div id="d4">襯線體 Time New Roman</div>
+        <div id="d5">無襯線體 Arial</div>
+
+    </boddy>
+</html>
