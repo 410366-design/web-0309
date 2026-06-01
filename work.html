@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>作品</title>
+        <style>
+            #board{
+                width: 1800px;
+                height: 850px;
+                border: 1px solid black;
+                position: absolute;
+            }
+            @keyframes walking {
+			0%{background-position-x: 0px;}
+			100%{background-position-x: -144px;}
+            }
+            #role{
+                width: 48px;
+                height: 48px;
+                background: url("pic/people.png");
+                animation: walking 600ms steps(3) infinite paused;
+                position: absolute;
+                
+            }
+        </style>
+        <script>  
+        function showPos(obj) {
+			obj.style.top=obj.pos.y + "px";
+			obj.style.left=obj.pos.x + "px";
+        }
+        function role_move() {
+			var role=document.getElementById("role");
+			if(role.way["ArrowDown"]) {
+				role.pos.y++;
+			} else if(role.way["ArrowLeft"]) {
+				if(role.pos.x > 0) role.pos.x--;
+			} else if(role.way["ArrowRight"]) {
+				role.pos.x++;
+			} else if(role.way["ArrowUp"]) {
+				if(role.pos.y > 0) role.pos.y--;
+			}
+			role.style.top=role.pos.y+"px";
+			role.style.left=role.pos.x+"px";
+		}
+        function init(){
+			var role=document.getElementById("role");
+			role.pos={x:900,y:810};
+			role.way={"ArrowDown":0,"ArrowUp":0,"ArrowLeft":0,"ArrowRight":0};
+			role.style.top=role.pos.y+"px";
+			role.style.left=role.pos.x+"px";
+			setInterval(role_move,50);
+		}
+        </script>
+    </head>
+    <body onkeydown="mykeydown();" onkeyup="mykeyup();" onload="init()">
+        <div id="role"></div>
+        <div id="board"></div>
+
+    </body>
+</html>
