@@ -3,7 +3,7 @@
         <title>作品</title>
         <style>
             #board{
-                width: 1800px;
+                width: 1500px;
                 height: 850px;
                 border: 1px solid black;
                 position: absolute;
@@ -20,33 +20,97 @@
                 position: absolute;
                 
             }
+            .meteor{
+                width: 415px;
+                height: 350px;
+                position: absolute;
+            }
         </style>
-        <script>  
+        <script>
+        var gameing=false;  
         function showPos(obj) {
 			obj.style.top=obj.pos.y + "px";
 			obj.style.left=obj.pos.x + "px";
         }
+        function mykeyup() {
+			var role=document.getElementById("role");
+			role.way[event.key]=false;
+			role.style.animationPlayState="paused";
+		}
+        function mykeydown() {
+			event.preventDefault();
+            if(!gameing){
+                game_start();
+            }
+			var role=document.getElementById("role");
+			if(event.key=="ArrowLeft") {
+				role.style.backgroundPositionY="-48px";
+			} else if(event.key=="ArrowRight") {
+				role.style.backgroundPositionY="-96px";
+			}
+			role.way[event.key]=true;
+			role.style.animationPlayState="running";
+		}
         function role_move() {
 			var role=document.getElementById("role");
-			if(role.way["ArrowDown"]) {
-				role.pos.y++;
-			} else if(role.way["ArrowLeft"]) {
+			if(role.way["ArrowLeft"]) {
 				if(role.pos.x > 0) role.pos.x--;
-			} else if(role.way["ArrowRight"]) {
+			} else if(role.way["ArrowRight"]&&role.pos.x<1500) {
 				role.pos.x++;
-			} else if(role.way["ArrowUp"]) {
-				if(role.pos.y > 0) role.pos.y--;
 			}
 			role.style.top=role.pos.y+"px";
 			role.style.left=role.pos.x+"px";
 		}
+        function meteor_move(m) {
+            if(!gameing)return;
+            var role=document.getElementById("role");
+            var distance=Math.sqrt(Math.pow(m.pos.x-role.pos.x,2)+Math.pow(m.pos.y-role.pos.y,2));
+            if(distance<50){
+                game_stop();
+                alert("Game Stop");
+                return;
+            }
+			if(m.pos.y > 850) {
+				clearInterval(m.move);
+				m.remove();
+			} else {
+				m.pos.x+=getRand(-3,3);
+				m.pos.y++;
+				showPos(m);
+			}
+		}
+		function meteor() {
+			if(!gameing) return;
+			var m=document.createElement("img");
+			m.src="pic/meteor.png";
+			m.className="meteor";
+			m.pos={x:getRand(0,540),y:-100};
+			showPos(m);
+			m.move=setInterval(function(){
+                meteor_move(m);
+            },20);
+			document.getElementById("board").appendChild(m);
+		}
+        function game_start() {
+			if(gameing) return;
+			gameing=true;
+			game_score=0;
+			document.getElementById("score").innerHTML=game_score;
+			setInterval(meteor,1000);
+			document.getElementById("board").style.animationPlayState="running";
+		}
+		function game_stop() {
+			gameing=false;
+			document.getElementById("board").style.animationPlayState="paused";
+			Array.from(document.getElementsByClassName("meteor"));
+		}
         function init(){
 			var role=document.getElementById("role");
-			role.pos={x:900,y:810};
-			role.way={"ArrowDown":0,"ArrowUp":0,"ArrowLeft":0,"ArrowRight":0};
+			role.pos={x:750,y:810};
+			role.way={"ArrowLeft":0,"ArrowRight":0};
 			role.style.top=role.pos.y+"px";
 			role.style.left=role.pos.x+"px";
-			setInterval(role_move,50);
+			setInterval(role_move,1);
 		}
         </script>
     </head>
