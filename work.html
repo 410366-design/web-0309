@@ -45,7 +45,6 @@
             obj.style.top = obj.pos.y + "px";
         }
         function mykeydown(event){
-
             event.preventDefault();
             if(!gameing){
                 game_start();
@@ -114,7 +113,7 @@
             showPos(e);
             e.move = setInterval(function(){
                 element_move(e);
-            },0.1);
+            },10);
             document.getElementById("board").appendChild(e);
         }
         function game_start(){
@@ -127,8 +126,8 @@
         document.getElementById("timer").innerHTML =
         "時間：" + timeCount + " 秒";
         },1000);
-    setInterval(element,1000);
-}
+         setInterval(element,100);
+        }
         function game_stop(){
             gameing = false;
             clearInterval(timerInterval);
