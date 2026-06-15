@@ -1,122 +1,157 @@
 <html>
-    <head>
-        <title>作品</title>
-        <style>
-            #board{
-                width: 1500px;
-                height: 850px;
-                border: 1px solid black;
-                position: absolute;
-            }
-            @keyframes walking {
-			0%{background-position-x: 0px;}
-			100%{background-position-x: -144px;}
-            }
-            #role{
-                width: 48px;
-                height: 48px;
-                background: url("pic/people.png");
-                animation: walking 600ms steps(3) infinite paused;
-                position: absolute;
-                
-            }
-            .meteor{
-                width: 415px;
-                height: 350px;
-                position: absolute;
-            }
-        </style>
-        <script>
-        var gameing=false;  
-        function showPos(obj) {
-			obj.style.top=obj.pos.y + "px";
-			obj.style.left=obj.pos.x + "px";
+<head>
+    <title>作品</title>
+    <style>
+        #board{
+            width:1500px;
+            height:850px;
+            border:1px solid black;
+            position:relative;
+            overflow:hidden;
         }
-        function mykeyup() {
-			var role=document.getElementById("role");
-			role.way[event.key]=false;
-			role.style.animationPlayState="paused";
-		}
-        function mykeydown() {
-			event.preventDefault();
+        @keyframes walking{
+            0%{background-position-x:0px;}
+            100%{background-position-x:-144px;}
+        }
+        #role{
+            width:48px;
+            height:48px;
+            background:url("pic/people.png");
+            animation:walking 600ms steps(3) infinite paused;
+            position:absolute;
+        }
+        .element{
+            width:50px;
+            height:50px;
+            position:absolute;
+        }
+        #timer{
+            position:absolute;
+            left:1520px;
+            top:20px;
+            font-size:30px;
+            font-weight:bold;
+        }
+    </style>
+    <script>
+        var gameing=false;
+        var timeCount=0;
+        var timerInterval;
+        function getRand(min,max){
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+        function showPos(obj){
+            obj.style.left = obj.pos.x + "px";
+            obj.style.top = obj.pos.y + "px";
+        }
+        function mykeydown(event){
+
+            event.preventDefault();
             if(!gameing){
                 game_start();
             }
-			var role=document.getElementById("role");
-			if(event.key=="ArrowLeft") {
-				role.style.backgroundPositionY="-48px";
-			} else if(event.key=="ArrowRight") {
-				role.style.backgroundPositionY="-96px";
-			}
-			role.way[event.key]=true;
-			role.style.animationPlayState="running";
-		}
-        function role_move() {
-			var role=document.getElementById("role");
-			if(role.way["ArrowLeft"]) {
-				if(role.pos.x > 0) role.pos.x--;
-			} else if(role.way["ArrowRight"]&&role.pos.x<1500) {
-				role.pos.x++;
-			}
-			role.style.top=role.pos.y+"px";
-			role.style.left=role.pos.x+"px";
-		}
-        function meteor_move(m) {
-            if(!gameing)return;
+            var role = document.getElementById("role");
+            if(event.key=="ArrowLeft"){
+                role.style.backgroundPositionY="-48px";
+            }
+            else if(event.key=="ArrowRight"){
+                role.style.backgroundPositionY="-96px";
+            }
+            role.way[event.key] = true;
+            role.style.animationPlayState = "running";
+        }
+        function mykeyup(event){
+            var role = document.getElementById("role");
+            role.way[event.key] = false;
+            role.style.animationPlayState = "paused";
+        }
+        function role_move(){
+            var role = document.getElementById("role");
+            if(role.way["ArrowLeft"]){
+                if(role.pos.x > 0){
+                    role.pos.x -= 5;
+                }
+            }
+            else if(role.way["ArrowRight"]){
+                if(role.pos.x < 1452){
+                    role.pos.x += 5;
+                }
+            }
+            showPos(role);
+        }
+        function element_move(e){
+            if(!gameing) return;
             var role=document.getElementById("role");
-            var distance=Math.sqrt(Math.pow(m.pos.x-role.pos.x,2)+Math.pow(m.pos.y-role.pos.y,2));
-            if(distance<50){
+            var distance = Math.sqrt(
+                Math.pow(e.pos.x-role.pos.x,2)+
+                Math.pow(e.pos.y-role.pos.y,2)
+            );
+            if(distance < 50){
+
                 game_stop();
-                alert("Game Stop");
+                alert("Game Over");
                 return;
             }
-			if(m.pos.y > 850) {
-				clearInterval(m.move);
-				m.remove();
-			} else {
-				m.pos.x+=getRand(-3,3);
-				m.pos.y++;
-				showPos(m);
-			}
-		}
-		function meteor() {
-			if(!gameing) return;
-			var m=document.createElement("img");
-			m.src="pic/meteor.png";
-			m.className="meteor";
-			m.pos={x:getRand(0,540),y:-100};
-			showPos(m);
-			m.move=setInterval(function(){
-                meteor_move(m);
-            },20);
-			document.getElementById("board").appendChild(m);
-		}
-        function game_start() {
-			if(gameing) return;
-			gameing=true;
-			game_score=0;
-			document.getElementById("score").innerHTML=game_score;
-			setInterval(meteor,1000);
-			document.getElementById("board").style.animationPlayState="running";
-		}
-		function game_stop() {
-			gameing=false;
-			document.getElementById("board").style.animationPlayState="paused";
-			Array.from(document.getElementsByClassName("meteor"));
-		}
-        function init(){
-			var role=document.getElementById("role");
-			role.pos={x:750,y:810};
-			role.way={"ArrowLeft":0,"ArrowRight":0};
-			role.style.top=role.pos.y+"px";
-			role.style.left=role.pos.x+"px";
-			setInterval(role_move,1);
-		}
-        </script>
-    </head>
-    <body onkeydown="mykeydown();" onkeyup="mykeyup();" onload="init()">
-        <div id="role"></div>
-        <div id="board"></div>
+            if(e.pos.y > 850){
+                clearInterval(e.move);
+                e.remove();
+            }else{
+                e.pos.x += getRand(-3,3);
+                e.pos.y += 3;
+                showPos(e);
+            }
+        }
 
-    </body>
+        function element(){
+            if(!gameing) return;
+            var e = document.createElement("div");
+            e.className = "element";
+            e.style.backgroundColor=`rgb(${getRand(0,255)},${getRand(0,255)},${getRand(0,255)})`;
+            e.pos = {
+                x:getRand(0,1450),
+                y:-50
+            };
+            showPos(e);
+            e.move = setInterval(function(){
+                element_move(e);
+            },0.1);
+            document.getElementById("board").appendChild(e);
+        }
+        function game_start(){
+        if(gameing) return;
+        gameing = true;
+        timeCount = 0;
+        document.getElementById("timer").innerHTML = "時間：0 秒";
+        timerInterval = setInterval(function(){
+        timeCount++;
+        document.getElementById("timer").innerHTML =
+        "時間：" + timeCount + " 秒";
+        },1000);
+    setInterval(element,1000);
+}
+        function game_stop(){
+            gameing = false;
+            clearInterval(timerInterval);
+        }
+        function init(){
+            var role = document.getElementById("role");
+            role.pos = {
+                x:750,
+                y:800
+            };
+            role.way = {
+                "ArrowLeft":false,
+                "ArrowRight":false
+            };
+            showPos(role);
+            setInterval(role_move,20);
+        }
+    </script>
+</head>
+<body onload="init() "onkeydown="mykeydown(event) "onkeyup="mykeyup(event)">
+    <div id="board">
+        <div id="role"></div>
+    </div>
+    <div id="timer">時間：0 秒</div>
+</body>
 </html>
